@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense &amp; Budget Visualizer</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-theme="light">
+
+    <!-- ─── HEADER ─────────────────────────────────────────────────────── -->
+    <header>
+      <h1>Expense &amp; Budget Visualizer</h1>
+      <button id="theme-toggle" aria-label="Toggle dark/light theme">🌙 Toggle Theme</button>
+    </header>
+
+    <!-- ─── MAIN ──────────────────────────────────────────────────────── -->
+    <main>
+
+      <!-- Balance Display -->
+      <section id="balance-section">
+        <div id="balance-display">$0.00</div>       
+        <p id="limit-warning" hidden>⚠ Spending limit exceeded!</p>
+
+        <form id="spending-limit-form">
+          <label for="spending-limit-input">Spending Limit</label>
+          <input
+            type="number"
+            id="spending-limit-input"
+            name="spending-limit-input"
+            min="0.01"
+            max="999999999.99"
+            step="0.01"
+            placeholder="Enter spending limit"
+          />
+          <div id="spending-limit-error" aria-live="polite"></div>
+          <button type="submit">Set Limit</button>
+          <button type="button" id="clear-limit-btn">Clear Limit</button>
+        </form>
+      </section>
+
+      <!-- Add Transaction Form -->
+      <section id="input-section">
+        <h2>Add Transaction</h2>
+        <form id="add-form" novalidate>
+          <label for="item-name">Item Name</label>
+          <input
+            type="text"
+            id="item-name"
+            name="item-name"
+            maxlength="100"
+            placeholder="e.g. Groceries"
+            autocomplete="off"
+          />
+
+          <label for="amount">Amount</label>
+          <input
+            type="number"
+            id="amount"
+            name="amount"
+            min="0.01"
+            max="999999999.99"
+            step="0.01"
+            placeholder="e.g. 12.50"
+          />
+
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            <option value="">-- Select Category --</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Fun">Fun</option>
+          </select>
+
+          <div id="form-errors" aria-live="polite"></div>
+
+          <button type="submit">Add Transaction</button>
+        </form>
+      </section>
+
+      <!-- Pie Chart -->
+      <section id="chart-section">
+        <h2>Spending by Category</h2>
+        <div id="chart-container">
+          <canvas id="spending-chart"></canvas>
+          <p id="chart-empty-msg">No spending data to display</p>
+        </div>
+      </section>
+
+      <!-- Transaction List -->
+      <section id="transaction-section">
+        <h2>Transactions</h2>
+        <ul id="transaction-list" aria-label="Transaction list">
+          <!-- Transactions rendered here by JS -->
+        </ul>
+      </section>
+
+      <!-- Monthly Summary -->
+      <section id="monthly-summary-section">
+        <h2>Monthly Summary</h2>
+
+        <label for="month-select">Month</label>
+        <select id="month-select" name="month-select">
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+
+        <label for="year-select">Year</label>
+        <select id="year-select" name="year-select">
+          <!-- Populated dynamically by JS -->
+        </select>
+
+        <table>
+          <tbody id="summary-body">
+            <!-- Per-category rows rendered by JS -->
+          </tbody>
+          <tfoot>
+            <tr id="summary-grand-total">
+              <!-- Grand total rendered by JS -->
+            </tr>
+          </tfoot>
+        </table>
+
+        <p id="summary-empty-msg">No data available for this period</p>
+      </section>
+
+    </main>
+
+    <!-- ─── ERROR NOTIFICATION ────────────────────────────────────────── -->
+    <div
+      id="error-notification"
+      role="alert"
+      aria-live="assertive"
+    >
+      <span id="error-message"></span>
+      <button id="dismiss-error" type="button">Dismiss</button>
+    </div>
+
+    <!-- ─── SCRIPTS ───────────────────────────────────────────────────── -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
